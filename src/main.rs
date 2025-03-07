@@ -52,7 +52,7 @@ enum SubCommand {
         typst_args: Vec<String>,
 
         /// Path to the Typst executable.
-        #[arg(long)]
+        #[arg(long, env = "TYPST_PATH")]
         typst_path: Option<PathBuf>,
 
         /// Configures the project root (for absolute paths).

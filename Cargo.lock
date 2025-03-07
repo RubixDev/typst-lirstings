@@ -703,20 +703,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d26c52dbd32dccf2d10cac7725f8eae5296885fb5703b261f7d0a0739ec807ab"
 
 [[package]]
-name = "lirstings"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "serde",
- "serde_json",
- "syntastica",
- "syntastica-parsers-dynamic",
- "syntastica-parsers-git",
- "syntastica-themes",
-]
-
-[[package]]
 name = "litemap"
 version = "0.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1590,6 +1576,20 @@ dependencies = [
  "streaming-iterator",
  "thiserror",
  "tree-sitter",
+]
+
+[[package]]
+name = "typst-lirstings"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "serde",
+ "serde_json",
+ "syntastica",
+ "syntastica-parsers-dynamic",
+ "syntastica-parsers-git",
+ "syntastica-themes",
 ]
 
 [[package]]
