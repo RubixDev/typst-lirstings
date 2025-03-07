@@ -8,8 +8,12 @@ use std::{
 
 use anyhow::{Context as _, Result};
 use clap::{builder::TypedValueParser, Parser, ValueHint};
-use syntastica::{language_set::SupportedLanguage as _, renderer, Processor};
-use syntastica_parsers_git::{Lang, LanguageSetImpl};
+use syntastica::{
+    language_set::{LanguageSet, SupportedLanguage as _, Union},
+    renderer, Processor,
+};
+use syntastica_parsers_dynamic::LanguageLoader;
+use syntastica_parsers_git::LanguageSetImpl;
 
 #[derive(clap::Parser)]
 #[command(author, version, about)]
@@ -156,14 +160,16 @@ fn main() -> Result<()> {
             let res = serde_json::from_slice::<Vec<QueryResult>>(&res.stdout)
                 .context("failed parsing query results")?;
 
-            let set = LanguageSetImpl::new();
-            let mut processor = Processor::new(&set);
+            let loader = LanguageLoader::new(vec![PathBuf::from("./parsers/")])
+                .context("loading languages")?;
+            let loader = Union::new(loader, LanguageSetImpl::new());
+            let mut processor = Processor::new(&loader);
             let mut highlighted = vec![];
             for raw in &res {
                 highlighted.push(
                     raw.lang
                         .as_ref()
-                        .and_then(|l| get_lang(l))
+                        .and_then(|l| get_lang(l, &loader))
                         .map(|lang| {
                             Result::<_>::Ok(renderer::resolve_styles(
                                 &processor
@@ -236,8 +242,8 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-fn get_lang(name: &str) -> Option<Lang> {
-    Lang::for_name(name)
+fn get_lang<'l, T: LanguageSet<'l>>(name: &str, loader: &'l T) -> Option<T::Language> {
+    T::Language::for_name(name, loader)
         .ok()
-        .or_else(|| Lang::for_injection(name))
+        .or_else(|| T::Language::for_injection(name, loader))
 }
