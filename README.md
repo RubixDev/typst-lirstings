@@ -41,7 +41,7 @@ command.
 ### Using a different Theme
 
 `typst-lirstings` comes bundled with
-[a bunch of different themes](https://github.com/RubixDev/syntastica/blob/v0.5.0/syntastica-themes/theme_list.md).
+[a bunch of different themes](https://github.com/RubixDev/syntastica/blob/v0.6.0/syntastica-themes/theme_list.md).
 To select which one to use, simply set the `theme` argument of the `lirsting`
 function. For example:
 
