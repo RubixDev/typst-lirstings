@@ -28,7 +28,7 @@ interface of this tool. Then add the following to your document:
 #show raw: lirsting
 ```
 
-This should have no effect by default, but will enable the usage the CLI to
+This should have no effect by default, but will enable the usage of the CLI to
 compile your document with enhanced syntax highlighting. To do that, run
 
 ```bash
